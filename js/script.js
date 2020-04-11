@@ -3,7 +3,17 @@ var roundScore = [0,0]
 var currPlayer = 0
 var round = 1
 
-var arr = clueBank.getRandClue()
+var url="http://localhost/arr.json"
+var arr // = clueBank.getRandClue()
+fetch(url,{mode: 'cors'})
+    .then(response => {
+        if (response.ok) {
+            response.json()
+                .then(console.log);
+        } else {
+            console.error('server response : ' + response.status);
+        }
+    }).catch(console.error);
 var clue = arr[1]
 var category = arr[0]
 console.log(category, ",",clue)
