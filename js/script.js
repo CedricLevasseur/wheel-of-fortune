@@ -2,20 +2,23 @@ var gameScore = [0,0]
 var roundScore = [0,0]
 var currPlayer = 0
 var round = 1
-
 var url="http://localhost/arr.json"
-var arr // = clueBank.getRandClue()
-fetch(url,{mode: 'cors'})
-    .then(response => {
-        if (response.ok) {
-            response.json()
-                .then(console.log);
-        } else {
-            console.error('server response : ' + response.status);
-        }
-    }).catch(console.error);
-var clue = arr[1]
-var category = arr[0]
+let arr
+let clue
+let category
+async function getArr(url, arr) {
+    var response = await fetch(url,{mode: 'cors'})
+    var resp = await response.json()
+    console.log("getarr="+resp)
+
+    const json = await fetch(url,{mode: 'cors'})
+                .then(response => response.json());
+    arr= json
+}
+arr=getArr(url)
+console.log("arr="+arr)
+clue = arr.clue
+category = arr.category
 console.log(category, ",",clue)
 
 var clueTablePos = []
@@ -62,7 +65,6 @@ $wheel.values = [ 50000,
                   5000,
                   6500,
                   "Bankrupt",
-                  7000,
                   3000,
                   3000,
                   8000,
@@ -101,6 +103,10 @@ function showStartButton () {
 }
 
 /* --------------------------------------------------------------- */
+
+/*
+ * UI Display a message 
+ */
 function showMessage(msg, showContinue, nextRound) {
   $instructionBox.html(msg + " ")
   if(showContinue) {
