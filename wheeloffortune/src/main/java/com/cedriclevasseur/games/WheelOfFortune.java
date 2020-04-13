@@ -14,8 +14,7 @@ import java.util.List;
  */
 public class WheelOfFortune extends AbstractVerticle {
  
-  // Maintain a simple list of names
-  private List<String> names = new ArrayList<>();
+  
 
   @Override
   public void start() {
@@ -28,33 +27,15 @@ public class WheelOfFortune extends AbstractVerticle {
     });
 
     // Register a second router retrieving all stored names as JSON
-    router.get("/names").handler(
+    router.get("/egnima").handler(
         // Just encode the list as JSON and return.
         rc -> rc.response()
             .putHeader("content-type", "application/json")
-            .end(Json.encode(names)));
+            .end(Json.encode(Enigma.rand().toJson())));
 
     // Register a body handler indicating that other routes need
     // to read the request body
     router.route().handler(BodyHandler.create());
-
-    // Register a third route to add names
-    router.post("/names").handler(
-        rc -> {
-          // Read the body
-          String name = rc.getBody().toString();
-          if (name.isEmpty()) {
-            // Invalid body -> Bad request
-            rc.response().setStatusCode(400).end();
-          } else if (names.contains(name)) {
-            // Already included name -> Conflict
-            rc.response().setStatusCode(409).end();
-          } else {
-            // Add the name to the list -> Created
-            names.add(name);
-            rc.response().setStatusCode(201).end(name);
-          }
-        });
 
     vertx.createHttpServer()
         // Pass the router's accept method as request handler

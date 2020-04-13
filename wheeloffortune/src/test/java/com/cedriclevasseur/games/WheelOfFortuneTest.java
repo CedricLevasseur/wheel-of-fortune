@@ -17,7 +17,7 @@ public class WheelOfFortuneTest {
   @Before
   public void setUp(TestContext tc) {
     vertx = Vertx.vertx();
-    vertx.deployVerticle(WheelOfFortune.class.getName(), tc.asyncAssertSuccess());
+    vertx.deployVerticle(WheelOfFortune .class.getName(), tc.asyncAssertSuccess());
   }
 
   @After
