@@ -1,7 +1,6 @@
 package com.cedriclevasseur.games;
 
 import java.util.Random;
-import org.json.JSONObject;
 
 /**
  *
@@ -39,11 +38,5 @@ public class Enigma {
         return read(choosen);
     }
     
-    public String toJson(){
-        JSONObject jo = new JSONObject();
-        jo.put("clue", this.clue);
-        jo.put("category", this.category);
-        return jo.toString();
-    } 
-    
+   
 }
