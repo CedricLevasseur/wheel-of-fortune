@@ -1,14 +1,13 @@
-
 var gameScore = [0,0]
 var roundScore = [0,0]
 var currPlayer = 0
 var round = 1
-var url="http://localhost/arr.json"
-let arr = clueBank.getRandClue()
+var url="http://localhost/server/"
+let enigma = clueBank.getRandClue()
 let clue
 let category
-clue = arr[1]
-category = arr[0]
+clue = enigma[1]
+category = enigma[0]
 console.log(category, ",",clue)
 
 var clueTablePos = []
@@ -72,19 +71,31 @@ $wheel.getValue = function () {
   var min = 0
   return this.values[Math.floor(Math.random() * (max - min)) + min]
 }
-//init();
-showStartButton()
+let game = { gameScore: [0,0], roundScore: [0,0], currPlayer: 0, round:1  }
+
+init()
+.then(main)
+
 /* --------------------------------------------------------------- */
-async function getArr(url) {
-    const json = await fetch(url,{mode: 'cors'})
-                .then(response => response.json());
-    arr= json
-}
 
 async function init() {
-    arr=getArr(url)
-    console.log("--->"+arr.clue)    
+    console.log(JSON.stringify(game))
+    let promise1=await get(url,'enigma')   
+    return promise1;
 }
+function main(){
+    console.log(JSON.stringify(game))
+    showStartButton()
+
+}
+
+async function get(url,propertie_name) {
+    const json = await fetch(url+propertie_name,{mode: 'cors'})
+                .then(response => response.json())
+                .then(data => game[propertie_name] = data)
+    return json    
+}
+
 
 function showStartButton () {
   $startButton.show().on("click", function (e) {
@@ -119,10 +130,10 @@ function showMessage(msg, showContinue, nextRound) {
     $instructionBox.append($("<button id=continue>").click(function () {
       $(this).hide()
       emptyBoard()
-      var arr = clueBank.getRandClue()
-      console.log(arr)
-      clue = arr[1]
-      category = arr[0]
+      var enigma = clueBank.getRandClue()
+      console.log(enigma)
+      clue = enigma[1]
+      category = enigma[0]
       placeTiles()
       // reset scores display for round
       for (var i=0; i<gameScore.length; i++) {
