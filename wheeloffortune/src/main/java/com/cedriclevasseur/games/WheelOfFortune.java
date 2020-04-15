@@ -5,9 +5,6 @@ import io.vertx.core.json.Json;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author cedric
@@ -25,7 +22,7 @@ public class WheelOfFortune extends AbstractVerticle {
     router.get("/").handler(rc -> {
       rc.response().end("Welcome");
     });
-
+    
     // Register a second router retrieving all stored names as JSON
     router.get("/enigma").handler(
         // Just encode the list as JSON and return.
