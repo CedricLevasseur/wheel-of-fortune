@@ -1,15 +1,16 @@
-var gameScore = [0,0]
+let game = { gameScore: [0,0], roundScore: [0,0], currPlayer: 0, round:1  }
+let url="http://localhost/server/"
+
+/*var gameScore = [0,0]
 var roundScore = [0,0]
 var currPlayer = 0
 var round = 1
-var url="http://localhost/server/"
 let enigma = clueBank.getRandClue()
 let clue
 let category
 clue = enigma[1]
 category = enigma[0]
-console.log(category, ",",clue)
-
+*/
 var clueTablePos = []
 var guessedLetters = ""
 var buyAVowel = false
@@ -71,8 +72,6 @@ $wheel.getValue = function () {
   var min = 0
   return this.values[Math.floor(Math.random() * (max - min)) + min]
 }
-let game = { gameScore: [0,0], roundScore: [0,0], currPlayer: 0, round:1  }
-
 init()
 .then(main)
 
@@ -106,9 +105,9 @@ function showStartButton () {
     showMessage("Let's play!", true) // shows message and displays continue button
 
     $("table").fadeIn('slow')
-    for (var i=0; i<gameScore.length; i++) {
+    for (var i=0; i<game.gameScore.length; i++) {
       pScore.roundEl[i].html(0)
-      pScore.gameEl[i].html(gameScore[i])
+      pScore.gameEl[i].html(game.gameScore[i])
     }
   })
 }
@@ -136,17 +135,17 @@ function showMessage(msg, showContinue, nextRound) {
       category = enigma[0]
       placeTiles()
       // reset scores display for round
-      for (var i=0; i<gameScore.length; i++) {
+      for (var i=0; i<game.gameScore.length; i++) {
         pScore.roundEl[i].html(0)
       }
-      showMessage("Let's play the round " + round,true)
+      showMessage("Let's play the round " + game.round,true)
     }).html(">"))
   }
 }
 
 function currPlayerName() {
   pNames = [$p1Name.val(), $p2Name.val()]
-  return pNames[currPlayer]
+  return pNames[game.currPlayer]
 }
 
 /* 
@@ -159,7 +158,7 @@ function emptyBoard() {
 }
 
 function placeTiles(solved) {
-  var clueArr = clue.split(" ")
+  var clueArr = game.enigma.clue.split(" ")
   var currRow = 0
   var currCol = 0
   var k = 0
@@ -248,7 +247,7 @@ function spin () {
 
 function buyVowel () {
   //check if you can even buy a vowel
-  if(roundScore[currPlayer] < 250) {
+  if(game.roundScore[game.currPlayer] < 250) {
     showMessage("You need at least 250 for a vowel.", false)
     $guessInput.hide().off()
   } else {
@@ -322,7 +321,7 @@ function guessVowel (letter, spinValue) {
 
   //check the letter
   var result = checkGuess(letter)
-  var clueNoSpaces = clue.replace(/\s/ig, "")
+  var clueNoSpaces = game.enigma.clue.replace(/\s/ig, "")
   if(result !== "vowel") {
     showMessage("That's not a vowel.", false)
   } else {
@@ -350,7 +349,7 @@ function guessVowel (letter, spinValue) {
  */
 function updateBoard(letter) {
   //find positions of letter on board
-  var clueNoSpaces = clue.replace(/\s/ig, "")
+  var clueNoSpaces = game.enigma.clue.replace(/\s/ig, "")
   var pos = clueNoSpaces.indexOf(letter)
   var posArr = []
   var count = 0
@@ -378,7 +377,7 @@ function updateBoard(letter) {
 //note have it return an array of strings
 function checkGuess(letter) { //return "vowel", "correct", "already guessed", "wrong", or "not a letter"
   var vowels = ["a", "e", "i", "o", "u"]
-  var clueNoSpaces = clue.replace(/\s/ig, "")
+  var clueNoSpaces = game.enigma.clue.replace(/\s/ig, "")
 
   if (letter.length === 0) {
     return "no input"
@@ -398,7 +397,7 @@ function checkGuess(letter) { //return "vowel", "correct", "already guessed", "w
 function checkSolve(guess) {
   guess = guess.toLowerCase()
 
-  var clueNoSpaces = clue.replace(/\s/ig, "")
+  var clueNoSpaces = game.enigma.clue.replace(/\s/ig, "")
   var guessNoSpaces = guess.replace(/\s/ig, "").toLowerCase()
   if (clueNoSpaces === guessNoSpaces) {
     //empty the board
@@ -434,57 +433,57 @@ function checkSolve(guess) {
 }
 
 function nextPlayer() {
-  if(currPlayer === 1) {
-    currPlayer = 0
+  if(game.currPlayer === 1) {
+    game.currPlayer = 0
   } else {
-    currPlayer++
+    game.currPlayer++
   }
 }
 
 function nextRound() {
   //bank round points of the current player only
-  gameScore[currPlayer] += roundScore[currPlayer]
+  game.gameScore[game.currPlayer] += game.roundScore[game.currPlayer]
    //display game scores so far
-  for (var i=0; i<gameScore.length; i++) {
+  for (var i=0; i<game.gameScore.length; i++) {
     pScore.roundEl[i].html(0)
-    pScore.gameEl[i].html(gameScore[i])
+    pScore.gameEl[i].html(game.gameScore[i])
   }
 
-  if (round > 2) {
+  if (game.round > 2) {
     pNames = [$p1Name.val(), $p2Name.val()]
-    console.log("finished game", gameScore)
-    round = 1
+    console.log("finished game", game.gameScore)
+    game.round = 1
     //check who won.
-    if (gameScore[0] == gameScore [1]) {
+    if (game.gameScore[0] == game.gameScore [1]) {
       showMessage("It's a tie, womp womp. \rPress start to play a new game.")
-    } else if(gameScore[0] > gameScore [1]) {
-      showMessage("Congrats "+ pNames[0] +", you won with " + gameScore [0] +" points! \rPress start to play a new game.")
+    } else if(game.gameScore[0] > game.gameScore [1]) {
+      showMessage("Congrats "+ pNames[0] +", you won with " + game.gameScore [0] +" points! \rPress start to play a new game.")
     } else {
-      showMessage("Congrats "+ pNames[1] +", you won with " + gameScore [1] +" points! \rPress start to play a new game.")
+      showMessage("Congrats "+ pNames[1] +", you won with " + game.gameScore [1] +" points! \rPress start to play a new game.")
     }
-    gameScore = [0,0]
+    game.gameScore = [0,0]
     showStartButton()
   } else {
-    round++
+    game.round++
     //show message and
-    showMessage("Congratulations! You banked " + roundScore[currPlayer] + " that round! Here are the scores.", false,true)
+    showMessage("Congratulations! You banked " + game.roundScore[game.currPlayer] + " that round! Here are the scores.", false,true)
   }
 
   //reset guessed letters
   guessedLetters = ""
   //reset round score
-  roundScore = [0,0]
+  game.roundScore = [0,0]
 
 }
 
 function updateScore (points, numGuessed, bankrupt) {
   if(bankrupt) {
-    roundScore[currPlayer] = 0
+    game.roundScore[game.currPlayer] = 0
   } else {
-    roundScore[currPlayer] += points*numGuessed
-    console.log(roundScore)
+    game.roundScore[game.currPlayer] += points*numGuessed
+    console.log(game.roundScore)
   }
-  pScore.roundEl[currPlayer].html(roundScore[currPlayer])
+  pScore.roundEl[game.currPlayer].html(game.roundScore[game.currPlayer])
 }
 
 function showSpinGif() {
