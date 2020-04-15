@@ -1,24 +1,14 @@
+
 var gameScore = [0,0]
 var roundScore = [0,0]
 var currPlayer = 0
 var round = 1
 var url="http://localhost/arr.json"
-let arr
+let arr = clueBank.getRandClue()
 let clue
 let category
-async function getArr(url, arr) {
-    var response = await fetch(url,{mode: 'cors'})
-    var resp = await response.json()
-    console.log("getarr="+resp)
-
-    const json = await fetch(url,{mode: 'cors'})
-                .then(response => response.json());
-    arr= json
-}
-arr=getArr(url)
-console.log("arr="+arr)
-clue = arr.clue
-category = arr.category
+clue = arr[1]
+category = arr[0]
 console.log(category, ",",clue)
 
 var clueTablePos = []
@@ -82,10 +72,20 @@ $wheel.getValue = function () {
   var min = 0
   return this.values[Math.floor(Math.random() * (max - min)) + min]
 }
-
-/* --------------------------------------------------------------- */
-
+//init();
 showStartButton()
+/* --------------------------------------------------------------- */
+async function getArr(url) {
+    const json = await fetch(url,{mode: 'cors'})
+                .then(response => response.json());
+    arr= json
+}
+
+async function init() {
+    arr=getArr(url)
+    console.log("--->"+arr.clue)    
+}
+
 function showStartButton () {
   $startButton.show().on("click", function (e) {
     $startButton.fadeOut("fast").off()
@@ -138,6 +138,9 @@ function currPlayerName() {
   return pNames[currPlayer]
 }
 
+/* 
+ * Return Tiles
+ */
 function emptyBoard() {
   for (var i=0; i<$tiles.length; i++) {
     $tiles[i].removeClass("blank-tile").html("")
@@ -331,7 +334,9 @@ function guessVowel (letter, spinValue) {
     }
   }
 }
-
+/*
+ * Light on letters when founds
+ */
 function updateBoard(letter) {
   //find positions of letter on board
   var clueNoSpaces = clue.replace(/\s/ig, "")
