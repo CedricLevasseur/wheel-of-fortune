@@ -131,8 +131,8 @@ function showMessage(msg, showContinue, nextRound) {
       emptyBoard()
       var enigma = clueBank.getRandClue()
       console.log(enigma)
-      clue = enigma[1]
-      category = enigma[0]
+      clue = enigma.clue
+      category = enigma.category
       placeTiles()
       // reset scores display for round
       for (var i=0; i<game.gameScore.length; i++) {

@@ -1,0 +1,91 @@
+Things in a Classroom;rubber band
+Movies;let it go
+Gifts;friendship bracelet
+Disney;alice in wonderland
+Books;the cat in the hat
+Books;the cat in the hat
+Movies;charlotte’s web
+Movies;harry potter
+Movies;diary of a wimpy kid
+Movies;diary of a wimpy kid
+Movies;babe
+Movies;bambi
+Movies;frozen
+Movies;cats and dogs
+Movies;cinderella
+Movies;finding nemo
+Movies;the lion king
+Movies;scooby doo
+Movies;mary poppins
+Movies;wizard of oz
+Movies;superman
+Movies;the secret garden
+Movies;batman
+Games;ping pong
+Thing;snowball
+Thing;piano
+Thing;hula hoop
+Thing;seesaw
+Thing;rhinoceros
+Games;limbo
+Thing;pajamas
+Thing;alarm clock
+Thing;panguin
+Thing;wink
+Characters;darth vader
+Characters;spider man
+Characters;elsa
+Thing;whale
+Thing;hippo
+Thing;face
+Thing;ice cream cone
+Thing;spoon
+Thing;house
+Places;olive garden
+TV;once upon a time
+Thing;ghost
+Action;cooking dinner
+Action;ironing a shirt
+Action;riding a bike
+Action;watering the plants
+Action;mowing the lawn
+Action;building a sandcastle
+Action;raking leaves
+Action;playing chess
+Action;sewing clothes
+Action;scuba diving
+Action;playing four square
+Action;building a campfire
+Action;flying a kite
+Action;rock climbing
+Action;shopping at the mall
+Action;decorating a cupcake
+Action;sumo wrestling
+Action;picking apples
+Action;going trick or treat
+Action;digging a hole
+Action;petting a dog
+Action;watching a movie
+Disney;sleeping beauty
+Disney;snow white
+Disney;bambi
+Disney;dumbo
+Disney;pinocchio
+Disney;peter pan
+Disney;the jungle book
+Disney;the parent trap
+Disney;tangled
+Disney;winnie the pooh
+Disney;robin hood
+Disney;beauty and the beast
+Disney;aladdin
+Disney;hercules
+Disney;tarzan
+Disney;the incredibles
+Disney;cars
+Disney;brave
+Disney;wreck it ralph
+Disney;monsters inc
+Disney;wall e
+Disney;pirates of the caribbean
+Disney;princess and the frog
