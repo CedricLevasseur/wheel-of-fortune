@@ -185,10 +185,10 @@ function placeTiles(solved) {
   }
   // reveals disambigous letter 
   let letter
-  for( var i=0; i<=game.enigma.clue.length; i++){
+  for( var i=0; i<game.enigma.clue.length; i++){
       letter=game.enigma.clue[i]
       const authorized="abcdefghijklmnopkrstuvwxyz"
-      if(authorized.indexOf(letter)===-1){
+      if(authorized.index_of(letter)===-1){
             updateBoard(letter)
       }
   }
@@ -325,6 +325,39 @@ function guess (letter, spinValue) {
   }
 }
 
+//
+//String.prototype.index_of = function (char) {
+//    return this.index_of(char, 0)
+//}
+
+String.prototype.index_of = function (char, pos) {
+    console.log("entering with this: "+this+" char:"+char+" startingPos:"+pos )
+    if(char == null)
+        return -1
+    if( pos == null)
+        pos=0
+    char=char.toLowerCase()
+    
+    let idx=-1
+    let similarLetters=[ ['À','à','A','a'], ['È','è','É','é','E','e'], ['Ù','ù','U','u'], ['Ç','ç','C','c'] ]
+    for (var lettersArr of similarLetters){
+        let last = lettersArr.slice(-1).pop()  // last element of an array. Here it's "a" 
+//        console.log("char: "+char+" last: "+last +" this: "+this)
+        if(char==last){
+            for (var lttr of lettersArr){
+                idx= this.indexOf(lttr, pos)
+                if( idx!=-1 ){
+                    return idx
+                }
+            }    
+        }    
+    }
+    let result=this.toLowerCase().indexOf(char, pos);
+    console.log("exiting result: "+result)
+    return result
+}
+
+
 function guessVowel (letter, spinValue) {
   letter = letter.toLowerCase()
 
@@ -333,12 +366,12 @@ function guessVowel (letter, spinValue) {
   var clueNoSpaces = game.enigma.clue.replace(/\s/ig, "")
   if(result !== "vowel") {
     showMessage("That's not a vowel.", false)
-  } else {
-    if (guessedLetters.indexOf(letter) !== -1){
+  } else {  
+    if (guessedLetters.index_of(letter) !== -1){
       showMessage("Whoops, '" + letter + "' was already guessed. Sorry you lost your turn.", true)
       nextPlayer()
       $guessInput.hide().off()
-    } else if (clueNoSpaces.indexOf(letter) === -1) {
+    } else if (clueNoSpaces.index_of(letter) === -1) {
       guessedLetters += letter
       nextPlayer()
       showMessage("No '" + letter + "'. " + currPlayerName() + ", you're up", true)
@@ -359,15 +392,20 @@ function guessVowel (letter, spinValue) {
 function updateBoard(letter) {
   //find positions of letter on board
   var clueNoSpaces = game.enigma.clue.replace(/\s/ig, "")
-  var pos = clueNoSpaces.indexOf(letter)
+  console.log("letter:"+letter+ " clueNoSpaces:"+clueNoSpaces)
+  var pos = clueNoSpaces.index_of(letter)
   var posArr = []
   var count = 0
 
   // pos and count of the letters
   while (pos !== -1) {
       posArr.push(pos)
-      pos = clueNoSpaces.indexOf(letter, pos+1)
+       pos = clueNoSpaces.index_of(letter, pos+1)
       count++
+      if(count>100){
+          debugger;
+          pos=-1
+      }    
   }
 
   //highlight all the tiles with that letter
@@ -394,9 +432,9 @@ function checkGuess(letter) { //return "vowel", "correct", "already guessed", "w
     return "not a letter"
   } else if(vowels.indexOf(letter) !== -1) {
     return "vowel"
-  } else if(guessedLetters.indexOf(letter) !== -1) {
+  } else if(guessedLetters.index_of(letter) !== -1) {
     return "already-guessed"
-  } else if(clueNoSpaces.indexOf(letter) === -1) {
+  } else if(clueNoSpaces.index_of(letter) === -1) {
     return "wrong"
   } else {
     return "correct"
@@ -405,9 +443,8 @@ function checkGuess(letter) { //return "vowel", "correct", "already guessed", "w
 
 function checkSolve(guess) {
   guess = guess.toLowerCase()
-
-  var clueNoSpaces = game.enigma.clue.replace(/\s/ig, "")
-  var guessNoSpaces = guess.replace(/\s/ig, "").toLowerCase()
+  var clueNoSpaces = game.enigma.clue.replace(/\s/ig, "").toLowerCase()
+  var guessNoSpaces = guess.replace(/\s/ig, "").toLowerCase().toLowerCase()
   if (clueNoSpaces === guessNoSpaces) {
     //empty the board
     emptyBoard()
@@ -416,13 +453,13 @@ function checkSolve(guess) {
 
       //find the position(s) of that letter
       var letter = guessNoSpaces[j]
-      var pos = clueNoSpaces.indexOf(letter)
+      var pos = clueNoSpaces.index_of(letter)
       var posArr = []
       var count = 0
 
       while (pos !== -1) {
           posArr.push(pos)
-          pos = clueNoSpaces.indexOf(letter, pos+1)
+          pos = clueNoSpaces.index_of(letter, pos+1)
           count++
       }
 
