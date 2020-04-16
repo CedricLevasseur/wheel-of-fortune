@@ -339,7 +339,7 @@ String.prototype.index_of = function (char, pos) {
     char=char.toLowerCase()
     
     let idx=-1
-    let similarLetters=[ ['À','à','A','a'], ['È','è','É','é','E','e'], ['Ù','ù','U','u'], ['Ç','ç','C','c'] ]
+    let similarLetters=[ ['À','à','A','a'], ['È','è','É','é','E','Ê','ê','Ë','ë','e'], ['Ù','ù','U','u'], ['Ç','ç','C','c'],['Î','î','Ï','ï', 'i'] ]
     for (var lettersArr of similarLetters){
         let last = lettersArr.slice(-1).pop()  // last element of an array. Here it's "a" 
 //        console.log("char: "+char+" last: "+last +" this: "+this)
