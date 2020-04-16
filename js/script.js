@@ -183,6 +183,15 @@ function placeTiles(solved) {
       k++
     }
   }
+  // reveals disambigous letter 
+  let letter
+  for( var i=0; i<=game.enigma.clue.length; i++){
+      letter=game.enigma.clue[i]
+      const authorized="abcdefghijklmnopkrstuvwxyz"
+      if(authorized.indexOf(letter)===-1){
+            updateBoard(letter)
+      }
+  }
 }
 
 function flipTiles (passedCurrRow, passedCurrCol,tileNum, solvedBool, currLetter) {
